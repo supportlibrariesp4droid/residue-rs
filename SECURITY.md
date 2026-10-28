@@ -11,7 +11,7 @@ Please report suspected vulnerabilities privately, not in a public issue.
 
 - Preferred: open a [private security advisory](https://github.com/supportlibrariesp4droid/residue-rs/security/advisories/new)
   on GitHub.
-- Alternatively, email **pmpaerospace@gmail.com** with the details.
+- Alternatively, email **supportlibrariesp4@gmail.com** with the details.
 
 Include a description, a reproduction if you have one, and the version or commit
 affected. You can expect an acknowledgement within a few days.
