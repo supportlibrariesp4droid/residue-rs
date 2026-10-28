@@ -1,0 +1,55 @@
+[package]
+name = "residue-rs"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.97"
+authors = ["Pietro Maria Piazza"]
+license = "Apache-2.0"
+description = "Exact integer arithmetic in a Residue Number System (CPU, SIMD-friendly)."
+keywords = ["rns", "modular", "crt", "bignum", "no-std"]
+categories = ["mathematics", "no-std"]
+readme = "README.md"
+repository = "https://github.com/supportlibrariesp4droid/residue-rs"
+homepage = "https://github.com/supportlibrariesp4droid/residue-rs"
+documentation = "https://docs.rs/residue-rs"
+# Charts, the script that draws them and the FLINT benchmark stay in the repository only.
+exclude = ["docs/", "scripts/", "benches/flint/"]
+
+[lib]
+# The package is published as `residue-rs` and imported as `residue`.
+name = "residue"
+
+# Build docs on docs.rs with every feature, and enable the feature badges.
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[profile.bench]
+lto = true
+codegen-units = 1
+
+[dependencies]
+pulp = { version = "0.22", default-features = false, features = ["std", "x86-v3", "x86-v4"], optional = true }
+num-bigint = { version = "0.4", default-features = false, optional = true }
+
+[features]
+default = ["std"]
+# Batch and matrix types. Needs an allocator, still no_std.
+alloc = []
+# Runtime CPU detection, so batch kernels use AVX2 or AVX-512 when available.
+std = ["alloc", "dep:pulp"]
+# Conversions to and from num-bigint types.
+num-bigint = ["alloc", "dep:num-bigint"]
+
+[dev-dependencies]
+criterion = { version = "0.5", default-features = false, features = ["cargo_bench_support"] }
+num-bigint = "0.4"
+num-integer = "0.1"
+num-traits = "0.2"
+proptest = "1"
+rug = { version = "1", default-features = false, features = ["integer"] }
+
+[[bench]]
+name = "compare"
+harness = false
+required-features = ["std"]
